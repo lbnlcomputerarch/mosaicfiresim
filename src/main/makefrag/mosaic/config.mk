@@ -5,7 +5,7 @@
 ##########################
 
 # These point at the main class of the target's Chisel generator
-DESIGN_PACKAGE ?= firesim.examples
+DESIGN_PACKAGE ?= firesim.mosaic
 DESIGN ?= SimpleMoSAICHarness
 
 # Re-uses the NoConfig from midasexamples for the default 'SimpleMoSAICHarness'
