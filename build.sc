@@ -25,7 +25,7 @@ object mosaic extends SbtModule with ScalafmtModule { m =>
     super.sources() ++ Seq(PathRef(millSourcePath / "main"))
   }
   override def ivyDeps = Agg(
-    ivy"org.chipsalliance::chisel:6.5.0"
+    ivy"org.chipsalliance::chisel:6.6.0"
   )
   override def scalacPluginIvyDeps = Agg(
     ivy"org.chipsalliance:::chisel-plugin:6.5.0"
