@@ -31,15 +31,24 @@ PREPROC_DEFINES ?= \
 	MOSAIC_FIRESIM \
 	$(EXTRA_PREPROC_DEFINES)
 
-VERILATOR_DEFINES ?= \
-	UNUSEDPARAM
+VERILATOR_LINTOFF_DEFINES ?= \
+	UNUSEDPARAM \
+	PINCONNECTEMPTY \
+	GENUNNAMED \
+	IMPLICIT \
+	WIDTHEXPAND \
+	WIDTHTRUNC \
+	UNSIGNED \
+	CASEINCOMPLETE \
+	BLKSEQ \
+	SYNCASYNCNET
 
 PREPROC_SCRIPT = $(vsrc_dir)/insert-includes.py
 
 $(PREPROC_VERILOG): build $(ALL_VSRCS)
 	mkdir -p $(dir $(PREPROC_VERILOG))
 	$(foreach def,$(PREPROC_DEFINES),echo "\`define $(def)" >> def.v; )
-	$(foreach def,$(VERILATOR_DEFINES), echo "/* verilator lint_off $(def) */" >> def.v; )
+	$(foreach def,$(VERILATOR_LINTOFF_DEFINES), echo "/* verilator lint_off $(def) */" >> def.v; )
 	$(foreach def,$(PREPROC_DEFINES),echo "\`undef $(def)" >> undef.v; )
 	cat def.v $(ALL_VSRCS) undef.v > combined.sv
 	$(PREPROC_SCRIPT) combined.sv $@ $(mosaic_build_dir)
