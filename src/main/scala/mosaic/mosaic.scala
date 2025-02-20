@@ -39,10 +39,6 @@ class mosaic(
     val gitClone = 
       s"git clone -b ${mosaicGitHash} https://github.com/lbnlcomputerarch/MoSAIC-P38.git ${mosaicGitDir}"
     require(gitClone.! == 0, "Failed to clone MoSAIC-P38")
-  }  else {
-    val gitUpdate = 
-      s"cd ${mosaicGitDir} && git pull origin ${mosaicGitHash}"
-    require(gitUpdate.! == 0, "Failed to update MoSAIC-P38")
   }
 
   val perlMake =
