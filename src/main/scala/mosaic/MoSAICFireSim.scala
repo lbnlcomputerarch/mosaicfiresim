@@ -16,9 +16,13 @@ class SimpleMoSAIC extends Module {
 
   // Disable Control (AXI4Lite) Interface
   simpleMoSaic.io.control.aw.valid := false.B
+  simpleMoSaic.io.control.aw.bits.addr := 0.U
   simpleMoSaic.io.control.w.valid := false.B
+  simpleMoSaic.io.control.w.bits.data := 0.U
+  simpleMoSaic.io.control.w.bits.strb := 0.U
   simpleMoSaic.io.control.b.ready := false.B
   simpleMoSaic.io.control.ar.valid := false.B
+  simpleMoSaic.io.control.ar.bits.addr := 0.U
   simpleMoSaic.io.control.r.ready := false.B
 
   // Disable enableProcessing
