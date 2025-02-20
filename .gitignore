@@ -30,3 +30,7 @@ target
 
 # Metals
 .bloop
+.metals
+
+# VSCode
+.vscode

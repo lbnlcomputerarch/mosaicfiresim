@@ -2,7 +2,7 @@
 #########################################################################################
 # pre-process MoSAIC into a single blackbox file
 #########################################################################################
-base_dir=$(abspath ../../../../../..)
+base_dir=$(abspath MoSAIC-P38)
 vsrc_dir=$(abspath .)
 mosaic_dir=$(base_dir)/src
 mosaic_build_dir=$(base_dir)/build
@@ -28,7 +28,7 @@ build: $(perl_script_dir)/$(MOSAIC_PERL_SCRIPT).pl
 
 EXTRA_PREPROC_DEFINES ?=
 PREPROC_DEFINES ?= \
-	FIRESIM \
+	MOSAIC_FIRESIM \
 	$(EXTRA_PREPROC_DEFINES)
 
 PREPROC_SCRIPT = $(vsrc_dir)/insert-includes.py

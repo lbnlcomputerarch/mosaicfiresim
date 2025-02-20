@@ -2,6 +2,7 @@ package mosaic
 
 import sys.process._
 import scala.io.Source
+import java.io.File
 
 import chisel3._
 import chisel3.util.HasBlackBoxPath
@@ -30,7 +31,15 @@ class mosaic(
 
   val mosaicChiselDir = System.getProperty("user.dir")
   val mosaicVsrcDir   = s"${mosaicChiselDir}/src/main/resources/mosaic/vsrc"
-  val mosaicFileList  = s"${mosaicChiselDir}/../icarus/file_list.txt"
+  val mosaicGitDir    = s"${mosaicVsrcDir}/MoSAIC-P38"
+  val mosaicGitHash   = s"chisel_wrapper"
+  val mosaicFileList  = s"${mosaicGitDir}/icarus/file_list.txt"
+
+  if (! new File(mosaicGitDir).exists()) {
+    val gitClone = 
+      s"git clone -b ${mosaicGitHash} https://github.com/lbnlcomputerarch/MoSAIC-P38.git ${mosaicGitDir}"
+    require(gitClone.! == 0, "Failed to clone MoSAIC-P38")
+  }
 
   val perlMake =
     s"make -C ${mosaicVsrcDir} build MOSAIC_PERL_SCRIPT=\"${mosaicConfig}\""
@@ -43,7 +52,8 @@ class mosaic(
     .filter(_.nonEmpty)
     .filterNot(_.startsWith("#"))
     .filterNot(_.contains("Testbench"))
-    .map(mosaicChiselDir + "/" + _)
+    .map(_.replaceAll("^\\.{2}(.*)$","$1"))
+    .map(mosaicGitDir +  _)
 
   // pre-process the verilog to remove "includes" and combine into one file
   val make =
