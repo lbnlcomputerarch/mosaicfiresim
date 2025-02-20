@@ -8,6 +8,6 @@
 ##########################
 
 DRIVER_H :=
-DRIVER_CC := $(firesim_base_dir)/src/main/cc/examples/simple_mosaic_top.cc
+DRIVER_CC := $(firesim_base_dir)/src/main/cc/mosaic/simple_mosaic_top.cc
 TARGET_CXX_FLAGS := -g
 TARGET_LD_FLAGS :=
