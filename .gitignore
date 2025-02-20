@@ -1,0 +1,32 @@
+!*/
+!Makefile
+!*.mk
+!*.scala
+!*.[cSh]
+!*.v
+!*.cpp
+!*.cc
+!.gitignore
+!.scalafmt.conf
+!build.sc
+!README.md
+build/
+
+# mill
+out/
+.bsp/
+.idea/
+.idea_modules/
+test_run_dir/
+
+# sbt
+target
+
+# scala-cli
+.scala-build
+
+# Preprocessed Verilog
+*.preprocessed.sv
+
+# Metals
+.bloop
