@@ -15,14 +15,14 @@ class SimpleMoSAIC extends Module {
   val simpleMoSaic = Module(new mosaic.MoSAICChisel("mosaic_2x2_firesim"))
 
   // Disable Control (AXI4Lite) Interface
-  simpleMoSaic.io.control.aw.valid = false.B
-  simpleMoSaic.io.control.w.valid = false.B
-  simpleMoSaic.io.control.b.ready = false.B
-  simpleMoSaic.io.control.ar.valid = false.B
-  simpleMoSaic.io.control.r.ready = false.B
+  simpleMoSaic.io.control.aw.valid := false.B
+  simpleMoSaic.io.control.w.valid := false.B
+  simpleMoSaic.io.control.b.ready := false.B
+  simpleMoSaic.io.control.ar.valid := false.B
+  simpleMoSaic.io.control.r.ready := false.B
 
   // Disable enableProcessing
-  simpleMoSaic.io.enableProcessing = false.B
+  simpleMoSaic.io.enableProcessing := false.B
 
   io.done := simpleMoSaic.io.internalResetDone
 
