@@ -12,25 +12,25 @@ class SimpleMoSAIC extends Module {
     val done = Output(Bool())
   })
 
-  val simpleMoSaic = Module(new mosaic.MoSAICChisel("mosaic_2x2_firesim"))
+  val simpleMoSAIC = Module(new mosaic.MoSAICChisel("mosaic_2x2_firesim"))
 
   // Disable Control (AXI4Lite) Interface
-  simpleMoSaic.io.control.aw.valid := false.B
-  simpleMoSaic.io.control.aw.bits.addr := 0.U
-  simpleMoSaic.io.control.w.valid := false.B
-  simpleMoSaic.io.control.w.bits.data := 0.U
-  simpleMoSaic.io.control.w.bits.strb := 0.U
-  simpleMoSaic.io.control.b.ready := false.B
-  simpleMoSaic.io.control.ar.valid := false.B
-  simpleMoSaic.io.control.ar.bits.addr := 0.U
-  simpleMoSaic.io.control.r.ready := false.B
+  simpleMoSAIC.io.control.aw.valid := false.B
+  simpleMoSAIC.io.control.aw.bits.addr := 0.U
+  simpleMoSAIC.io.control.w.valid := false.B
+  simpleMoSAIC.io.control.w.bits.data := 0.U
+  simpleMoSAIC.io.control.w.bits.strb := 0.U
+  simpleMoSAIC.io.control.b.ready := false.B
+  simpleMoSAIC.io.control.ar.valid := false.B
+  simpleMoSAIC.io.control.ar.bits.addr := 0.U
+  simpleMoSAIC.io.control.r.ready := false.B
 
   // Disable enableProcessing
-  simpleMoSaic.io.enableProcessing := false.B
+  simpleMoSAIC.io.enableProcessing := false.B
 
-  io.done := simpleMoSaic.io.internalResetDone
+  io.done := simpleMoSAIC.io.internalResetDone
 
-  when(simpleMoSaic.io.internalResetDone) {
+  when(simpleMoSAIC.io.internalResetDone) {
     printf("MoSAIC has reset successfully\n")
   }
 }
