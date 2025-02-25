@@ -56,5 +56,6 @@ $(PREPROC_VERILOG): build $(ALL_VSRCS)
 
 clean:
 	rm -rf $(PREPROC_VERILOG)
-	rm -rf $(mosaic_icarus_dir)/file_list.txt
-	-cd $(perl_script_dir) && ./clean_up.sh
+	rm -rf ${base_dir}
+#	rm -rf $(mosaic_icarus_dir)/file_list.txt
+#	-cd $(perl_script_dir) && ./clean_up.sh

@@ -34,7 +34,7 @@ To integrate the Chisel Wrapper for MoSAIC with FireSim, make sure you have `$FI
 
 Follow the directions for [FireSim without Chipyard](https://docs.fires.im/en/main/Advanced-Usage/FireSim-without-Chipyard.html) for details on how to build and run MoSAIC within Verilator and FireSim.
 
-### Running `SimpleMoSAIC` on Verilator
+## Running `SimpleMoSAIC` on Verilator
 
 Here are some basic instructions for running the `SimpleMoSAIC` harness within Verilator.
 
@@ -86,7 +86,7 @@ This project can be built with the following build tools:
 scala-cli src/main/scala/mosaic/MoSAICChisel.scala src/main/scala/mosaic/MoSAICIO.scala src/main/scala/mosaic/mosaic.scala
 ```
 
-The generated SystemVerilog will be displayed to the console.
+The generated SystemVerilog will be found in `build`.
 
 ### `mill`
 
@@ -95,7 +95,6 @@ make verilog
 ```
 
 You'll find the generated SystemVerilog in `build`.
-
 
 ## References
 
