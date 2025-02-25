@@ -99,6 +99,7 @@ You'll find the generated SystemVerilog in `build`.
 
 ## References
 
+- [FireSim without Chipyard](https://docs.fires.im/en/main/Advanced-Usage/FireSim-without-Chipyard.html)
 - [Chisel Documentation](https://www.chisel-lang.org/docs)
 - [Chisel Template](https://github.com/chipsalliance/chisel-template)
 - [Chisel Playground](https://github.com/OSCPU/chisel-playground)
