@@ -1,6 +1,16 @@
 # Chisel Wrapper for MoSAIC
 
+>>>
+**NOTE:** This wrapper was build and tested on:
+
+- FireSim Hash: [`b084672c2`](https://github.com/firesim/firesim/tree/b084672c2)
+- Chipyard Hash: [`320c1b93`](https://github.com/ucb-bar/chipyard/tree/320c1b93)
+
+>>>
+
 Simple Chisel 6 wrapper for MoSAIC.
+
+[[_TOC_]]
 
 ## Dependencies
 
