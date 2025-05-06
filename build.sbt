@@ -1,7 +1,3 @@
-ThisBuild / scalaVersion     := "2.13.12"
-ThisBuild / version          := "0.1.0"
-ThisBuild / organization     := "cag.amcr.lbl.gov"
-
 val chisel6Version = "6.6.0"
 val chisel3Version = "3.6.1"
 val scalaVersionFromChisel = "2.13.12"
