@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks":[
+        {
+            "label": "Source FireSim",
+            "type": "shell",
+            "command": "cd $FIRESIM_ROOT && source sourceme-manager.sh --skip-ssh-setup"
+        }
+    ]
+}
