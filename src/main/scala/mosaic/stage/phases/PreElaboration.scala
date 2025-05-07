@@ -13,26 +13,26 @@ case object TargetDirKey extends Field[String](".")
 
 class PreElaboration extends Phase with PreservesAll with HasMoSAICStageUtils {
 
-  override val prerequisites = Seq(Dependency[Checks])
+  override val prerequisites          = Seq(Dependency[Checks])
   override val optionalPrerequisiteOf = Seq(Dependency[chisel3.stage.phases.Elaborate])
 
   override def transform(annotations: AnnotationSeq): AnnotationSeq = {
 
     val stageOpts = view[StageOptions](annotations)
-    val rOpts = view[MoSAICOptions](annotations)
-    val topMod = rOpts.topModule.get
+    val rOpts     = view[MoSAICOptions](annotations)
+    val topMod    = rOpts.topModule.get
 
-    val config = getConfig(rOpts.configNames.get).alterPartial {
-      case TargetDirKey => stageOpts.targetDir
+    val config = getConfig(rOpts.configNames.get).alterPartial { case TargetDirKey =>
+      stageOpts.targetDir
     }
 
     val gen = () =>
       topMod
         .getConstructor(classOf[Parameters])
         .newInstance(config) match {
-          case a: RawModule => a
-          case a: LazyModule => LazyModule(a).module
-        }
+        case a: RawModule  => a
+        case a: LazyModule => LazyModule(a).module
+      }
 
     ChiselGeneratorAnnotation(gen) +: annotations
   }

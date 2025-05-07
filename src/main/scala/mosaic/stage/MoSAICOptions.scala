@@ -3,34 +3,34 @@
 package mosaic.stage
 
 class MoSAICOptions private[stage] (
-                                         val topModule:               Option[Class[_ <: Any]] = None,
-                                         val configNames:             Option[Seq[String]] = None,
-                                         val outputBaseName:          Option[String] = None,
-                                         val enableSFCFIRRTLEmission: Boolean = false) {
+  val topModule:               Option[Class[_ <: Any]] = None,
+  val configNames:             Option[Seq[String]]     = None,
+  val outputBaseName:          Option[String]          = None,
+  val enableSFCFIRRTLEmission: Boolean                 = false) {
 
   private[stage] def copy(
-                           topModule:               Option[Class[_ <: Any]] = topModule,
-                           configNames:             Option[Seq[String]] = configNames,
-                           outputBaseName:          Option[String] = outputBaseName,
-                           enableSFCFIRRTLEmission: Boolean = enableSFCFIRRTLEmission,
-                         ): MoSAICOptions = {
+    topModule:               Option[Class[_ <: Any]] = topModule,
+    configNames:             Option[Seq[String]]     = configNames,
+    outputBaseName:          Option[String]          = outputBaseName,
+    enableSFCFIRRTLEmission: Boolean                 = enableSFCFIRRTLEmission
+  ): MoSAICOptions = {
 
     new MoSAICOptions(
-      topModule=topModule,
-      configNames=configNames,
-      outputBaseName=outputBaseName,
-      enableSFCFIRRTLEmission=enableSFCFIRRTLEmission,
+      topModule               = topModule,
+      configNames             = configNames,
+      outputBaseName          = outputBaseName,
+      enableSFCFIRRTLEmission = enableSFCFIRRTLEmission
     )
   }
 
   lazy val topPackage: Option[String] = topModule match {
     case Some(a) => Some(a.getPackage.getName)
-    case _ => None
+    case _       => None
   }
 
   lazy val configClass: Option[String] = configNames match {
     case Some(names) =>
-      val classNames = names.map{ n => n.split('.').last }
+      val classNames = names.map { n => n.split('.').last }
       Some(classNames.mkString("_"))
     case _ => None
   }

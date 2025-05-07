@@ -1,7 +1,7 @@
 package mosaic.stage.phases
 
 import firrtl.AnnotationSeq
-import firrtl.annotations.{JsonProtocol}
+import firrtl.annotations.JsonProtocol
 import firrtl.options.Viewer.view
 import firrtl.options._
 import mosaic.stage._
@@ -12,7 +12,7 @@ class GenerateFirrtlAnnos extends Phase with PreservesAll with HasMoSAICStageUti
 
   override def transform(annotations: AnnotationSeq): AnnotationSeq = {
     val targetDir = view[StageOptions](annotations).targetDir
-    val fileName = s"${view[MoSAICOptions](annotations).longName.get}.anno.json"
+    val fileName  = s"${view[MoSAICOptions](annotations).longName.get}.anno.json"
 
     val annos = annotations.view.flatMap {
       // Remove TargetDirAnnotation so that we can pass as argument to FIRRTL

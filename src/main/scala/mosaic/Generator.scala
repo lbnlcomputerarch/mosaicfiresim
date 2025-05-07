@@ -1,6 +1,5 @@
 package mosaic
 
-import firrtl.options.{StageMain}
-import mosaic.stage.MoSAICStage
+import firrtl.options.StageMain
 
-object Generator extends StageMain(new MoSAICStage)
+object Generator extends StageMain(new stage.MoSAICStage)

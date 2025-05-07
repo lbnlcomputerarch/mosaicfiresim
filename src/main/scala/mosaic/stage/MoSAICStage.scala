@@ -3,11 +3,11 @@
 
 package mosaic.stage
 
-import circt.stage.{ChiselStage, CIRCTTargetAnnotation, CIRCTTarget}
-import firrtl.options.{Shell}
+import circt.stage.{CIRCTTarget, CIRCTTargetAnnotation, ChiselStage}
+import firrtl.options.Shell
 import firrtl.options.Viewer.view
-import firrtl.{AnnotationSeq}
-import firrtl.options.{Phase, PhaseManager, Shell, Dependency}
+import firrtl.AnnotationSeq
+import firrtl.options.{Dependency, Phase, PhaseManager, Shell}
 
 final class MoSAICChiselStage extends ChiselStage {
   override def run(annotations: AnnotationSeq): AnnotationSeq = {
@@ -19,9 +19,7 @@ final class MoSAICChiselStage extends ChiselStage {
         Dependency[chisel3.stage.phases.MaybeAspectPhase],
         Dependency[chisel3.stage.phases.AddSerializationAnnotations],
         Dependency[chisel3.stage.phases.Convert],
-        Dependency[chisel3.stage.phases.AddDedupGroupAnnotations],
         Dependency[chisel3.stage.phases.MaybeInjectingPhase],
-        Dependency[circt.stage.phases.AddImplicitOutputFile],
         Dependency[circt.stage.phases.Checks],
         Dependency[circt.stage.phases.CIRCT]
       ),
@@ -51,7 +49,7 @@ class MoSAICStage extends ChiselStage {
         Dependency[mosaic.stage.phases.TransformAnnotations],
         Dependency[mosaic.stage.phases.PreElaboration],
         Dependency[MoSAICChiselStage],
-        Dependency[mosaic.stage.phases.GenerateFirrtlAnnos],
+        Dependency[mosaic.stage.phases.GenerateFirrtlAnnos]
       ) ++ enableSFCFIRRTLEmissionPasses,
       currentState = Seq(
         Dependency[firrtl.stage.phases.AddDefaults],

@@ -8,10 +8,11 @@ import mosaic.stage._
 
 class TransformAnnotations extends Phase with PreservesAll with HasMoSAICStageUtils {
 
-  override val prerequisites = Seq(Dependency[Checks])
+  override val prerequisites          = Seq(Dependency[Checks])
   override val optionalPrerequisiteOf = Seq(Dependency[chisel3.stage.phases.AddImplicitOutputFile])
 
   override def transform(annotations: AnnotationSeq): AnnotationSeq = {
+
     /** Construct output file annotation for emission */
     new ChiselOutputFileAnnotation(view[MoSAICOptions](annotations).longName.get) +: annotations
   }

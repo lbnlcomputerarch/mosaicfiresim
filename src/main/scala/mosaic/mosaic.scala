@@ -35,8 +35,8 @@ class mosaic(
   val mosaicGitHash   = s"chisel_wrapper"
   val mosaicFileList  = s"${mosaicGitDir}/icarus/file_list.txt"
 
-  if (! new File(mosaicGitDir).exists()) {
-    val gitClone = 
+  if (!new File(mosaicGitDir).exists()) {
+    val gitClone =
       s"git clone -b ${mosaicGitHash} https://github.com/lbnlcomputerarch/MoSAIC-P38.git ${mosaicGitDir}"
     require(gitClone.! == 0, "Failed to clone MoSAIC-P38")
   }
@@ -52,8 +52,8 @@ class mosaic(
     .filter(_.nonEmpty)
     .filterNot(_.startsWith("#"))
     .filterNot(_.contains("Testbench"))
-    .map(_.replaceAll("^\\.{2}(.*)$","$1"))
-    .map(mosaicGitDir +  _)
+    .map(_.replaceAll("^\\.{2}(.*)$", "$1"))
+    .map(mosaicGitDir + _)
 
   // pre-process the verilog to remove "includes" and combine into one file
   val make =

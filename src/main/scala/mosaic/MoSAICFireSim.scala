@@ -15,15 +15,15 @@ class SimpleMoSAIC extends Module {
   val simpleMoSAIC = Module(new mosaic.MoSAICChisel("mosaic_2x2_firesim"))
 
   // Disable Control (AXI4Lite) Interface
-  simpleMoSAIC.io.control.aw.valid := false.B
+  simpleMoSAIC.io.control.aw.valid     := false.B
   simpleMoSAIC.io.control.aw.bits.addr := 0.U
-  simpleMoSAIC.io.control.w.valid := false.B
-  simpleMoSAIC.io.control.w.bits.data := 0.U
-  simpleMoSAIC.io.control.w.bits.strb := 0.U
-  simpleMoSAIC.io.control.b.ready := false.B
-  simpleMoSAIC.io.control.ar.valid := false.B
+  simpleMoSAIC.io.control.w.valid      := false.B
+  simpleMoSAIC.io.control.w.bits.data  := 0.U
+  simpleMoSAIC.io.control.w.bits.strb  := 0.U
+  simpleMoSAIC.io.control.b.ready      := false.B
+  simpleMoSAIC.io.control.ar.valid     := false.B
   simpleMoSAIC.io.control.ar.bits.addr := 0.U
-  simpleMoSAIC.io.control.r.ready := false.B
+  simpleMoSAIC.io.control.r.ready      := false.B
 
   // Disable enableProcessing
   simpleMoSAIC.io.enableProcessing := false.B
@@ -35,7 +35,9 @@ class SimpleMoSAIC extends Module {
   }
 }
 
-class SimpleMoSAICHarness(implicit val p: Parameters) extends RawModule {
+class SimpleMoSAICHarness(
+  implicit val p: Parameters)
+    extends RawModule {
   val clock = Wire(Clock())
   val reset = Wire(Bool())
 
@@ -53,7 +55,7 @@ class SimpleMoSAICHarness(implicit val p: Parameters) extends RawModule {
   // In effect, the bridge counts the length of the reset in terms of this clock.
   resetBridge.io.clock := clock
   // Drive with pulsed reset for a default amount of time.
-  reset                := resetBridge.io.reset
+  reset := resetBridge.io.reset
 
   // Boilerplate code:
   // Ensures FireSim-synthesized assertions and instrumentation is disabled
