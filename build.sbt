@@ -2,6 +2,8 @@ val chisel6Version = "6.6.0"
 val chisel3Version = "3.6.1"
 val scalaVersionFromChisel = "2.13.12"
 
+lazy val mosaicRoot = Project("mosaicRoot", file("."))
+
 lazy val commonSettings = Seq(
   organization := "cag.amcr.lbl.gov",
   version := "0.1.0",
@@ -14,6 +16,11 @@ lazy val commonSettings = Seq(
       "-Ymacro-annotations",
     ),
 )
+
+lazy val firesimDir = file("$FIRESIM_ROOT")
+lazy val toolsDir = file("./tools")
+lazy val firrtlDir = toolsDir / "firrtl2"
+lazy val cdeDir = toolsDir / "cde"
 
 /**
   * It has been a struggle for us to override settings in subprojects.
@@ -54,12 +61,12 @@ lazy val scalaTestSettings =  Seq(
   )
 )
 
-lazy val firrtl2 = freshProject("firrtl2", file("./firrtl2"))
+lazy val firrtl2 = freshProject("firrtl2", firrtlDir)
   .enablePlugins(BuildInfoPlugin)
   .enablePlugins(Antlr4Plugin)
   .settings(commonSettings)
   .settings(
-    sourceDirectory := file("./firrtl2/src"),
+    sourceDirectory := firrtlDir / "src",
     scalacOptions ++= Seq(
       "-language:reflectiveCalls",
       "-language:existentials",
@@ -82,17 +89,19 @@ lazy val firrtl2 = freshProject("firrtl2", file("./firrtl2"))
     buildInfoKeys := Seq[BuildInfoKey](buildInfoPackage, version, scalaVersion, sbtVersion)
   )
 
-lazy val firrtl2_bridge = freshProject("firrtl2_bridge", file("./firrtl2/bridge"))
+lazy val firrtl2_bridge = freshProject("firrtl2_bridge", firrtlDir / "bridge")
   .dependsOn(firrtl2)
   .settings(commonSettings)
   .settings(chiselSettings)
 
-lazy val firesimDir = file("$FIRESIM_ROOT")
+lazy val cde = (project in cdeDir)
+  .settings(commonSettings)
+  .settings(Compile / scalaSource := baseDirectory.value / "cde/src/chipsalliance/rocketchip")
 
 // Contains annotations & firrtl passes you may wish to use in rocket-chip without
 // introducing a circular dependency between RC and MIDAS.
 // Minimal in scope (should only depend on Chisel/Firrtl that is
-// cross-compilable between FireSim Chisel 3.* and Chipyard Chisel 6+)
+// cross-compilable between FireSim Chisel 3.* and MoSAIC Chisel 6+)
 lazy val midas_target_utils = (project in firesimDir / "sim/midas/targetutils")
   .settings(commonSettings)
   .settings(chiselSettings)
@@ -100,15 +109,14 @@ lazy val midas_target_utils = (project in firesimDir / "sim/midas/targetutils")
 // Provides API for bridges to be created in the target.
 // Includes target-side of FireSim-provided bridges and their interfaces that are shared
 // between FireSim and the target. Minimal in scope (should only depend on Chisel/Firrtl that is
-// cross-compilable between FireSim Chisel 3.* and Chipyard Chisel 6+)
+// cross-compilable between FireSim Chisel 3.* and MoSAIC Chisel 6+)
 lazy val firesim_lib = (project in firesimDir / "sim/firesim-lib")
   .dependsOn(midas_target_utils)
   .settings(commonSettings)
   .settings(chiselSettings)
   .settings(scalaTestSettings)
 
-lazy val root = (project in file("."))
-  .settings(name := "mosaic")
-  .dependsOn(firrtl2_bridge, midas_target_utils, firesim_lib)
+lazy val mosaic = Project("mosaic", file("."))
+  .dependsOn(cde, firrtl2_bridge, midas_target_utils, firesim_lib)
   .settings(commonSettings)
   .settings(chiselSettings)
