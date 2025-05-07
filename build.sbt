@@ -17,7 +17,7 @@ lazy val commonSettings = Seq(
     ),
 )
 
-lazy val firesimDir = file("$FIRESIM_ROOT")
+lazy val firesimDir = file(sbt.sys.env.get("FIRESIM_ROOT"))
 lazy val toolsDir = file("./tools")
 lazy val firrtlDir = toolsDir / "firrtl2"
 lazy val cdeDir = toolsDir / "cde"
@@ -116,7 +116,7 @@ lazy val firesim_lib = (project in firesimDir / "sim/firesim-lib")
   .settings(chiselSettings)
   .settings(scalaTestSettings)
 
-lazy val mosaic = Project("mosaic", file("."))
+lazy val mosaic = (project in file("."))
   .dependsOn(cde, firrtl2_bridge, midas_target_utils, firesim_lib)
   .settings(commonSettings)
   .settings(chiselSettings)
