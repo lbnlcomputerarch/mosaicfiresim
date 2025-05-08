@@ -100,7 +100,7 @@ lazy val cde = (project in cdeDir)
 // introducing a circular dependency between RC and MIDAS.
 // Minimal in scope (should only depend on Chisel/Firrtl that is
 // cross-compilable between FireSim Chisel 3.* and MoSAIC Chisel 6+)
-lazy val midas_target_utils = (project in firesimDir / "sim/midas/targetutils")
+lazy val midas = (project in firesimDir / "sim/midas/targetutils")
   .settings(commonSettings)
   .settings(chiselSettings)
 
@@ -108,14 +108,14 @@ lazy val midas_target_utils = (project in firesimDir / "sim/midas/targetutils")
 // Includes target-side of FireSim-provided bridges and their interfaces that are shared
 // between FireSim and the target. Minimal in scope (should only depend on Chisel/Firrtl that is
 // cross-compilable between FireSim Chisel 3.* and MoSAIC Chisel 6+)
-lazy val firesim_lib = (project in firesimDir / "sim/firesim-lib")
-  .dependsOn(midas_target_utils)
+lazy val firesim = (project in firesimDir / "sim/firesim-lib")
+  .dependsOn(midas)
   .settings(commonSettings)
   .settings(chiselSettings)
   .settings(scalaTestSettings)
 
 lazy val mosaic = (project in file("."))
   .settings(name := "mosaic")
-  .dependsOn(cde, firrtl2_bridge, midas_target_utils, firesim_lib)
+  .dependsOn(cde, firrtl2_bridge, midas, firesim)
   .settings(commonSettings)
   .settings(chiselSettings)
