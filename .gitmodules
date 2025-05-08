@@ -4,3 +4,6 @@
 [submodule "cde"]
 	path = tools/cde
 	url = https://github.com/chipsalliance/cde.git
+[submodule "tools/firesim"]
+	path = tools/firesim
+	url = https://github.com/firesim/firesim.git

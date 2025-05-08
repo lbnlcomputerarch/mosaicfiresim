@@ -13,7 +13,6 @@ package object stage {
       .foldLeft(new MoSAICOptions()) { (c, x) =>
         x match {
           case TopModuleAnnotation(a)      => c.copy(topModule = Some(a))
-          case ConfigsAnnotation(a)        => c.copy(configNames = Some(a))
           case OutputBaseNameAnnotation(a) => c.copy(outputBaseName = Some(a))
           case _: LegacySFCAnnotation => c.copy(enableSFCFIRRTLEmission = true)
         }

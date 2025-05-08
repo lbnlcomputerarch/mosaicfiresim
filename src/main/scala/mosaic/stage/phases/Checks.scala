@@ -8,12 +8,11 @@ import mosaic.stage._
 class Checks extends Phase with PreservesAll {
 
   override def transform(annotations: AnnotationSeq): AnnotationSeq = {
-    val targetDir, topModule, configNames, outputBaseName = scala.collection.mutable.ListBuffer[Annotation]()
+    val targetDir, topModule, outputBaseName = scala.collection.mutable.ListBuffer[Annotation]()
 
     annotations.foreach {
       case a: TargetDirAnnotation      => a +=: targetDir
       case a: TopModuleAnnotation      => a +=: topModule
-      case a: ConfigsAnnotation        => a +=: configNames
       case a: OutputBaseNameAnnotation => a +=: outputBaseName
       case _ =>
     }
@@ -32,7 +31,6 @@ class Checks extends Phase with PreservesAll {
 
     required(targetDir, "target directory")
     required(topModule, "top module")
-    required(configNames, "configs string (','-delimited)")
 
     optional(outputBaseName, "output base name")
 

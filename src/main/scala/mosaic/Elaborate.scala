@@ -1,6 +1,6 @@
 package mosaic
 
-object MillElaborate extends App {
+object Elaborate extends App {
   val firtoolOptions = Array(
     "-disable-all-randomization",
     "--lowering-options=" + List(

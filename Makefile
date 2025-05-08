@@ -10,10 +10,10 @@ test:
 verilog: reformat
 	$(call git_commit, "generate verilog")
 	mkdir -p $(BUILD_DIR)
-	mill -i $(PRJ).runMain mosaic.MillElaborate --target-dir $(BUILD_DIR)
+	mill -i $(PRJ).runMain mosaic.Elaborate --target-dir $(BUILD_DIR)
 
 help:
-	mill -i $(PRJ).runMain mosaic.MillElaborate --help
+	mill -i $(PRJ).runMain mosaic.Elaborate --help
 
 reformat:
 	mill -i __.reformat

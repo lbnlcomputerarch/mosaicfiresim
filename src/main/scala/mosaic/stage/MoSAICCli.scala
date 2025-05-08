@@ -10,9 +10,7 @@ trait MoSAICCli { this: Shell =>
   parser.note("MoSAIC Generator Options")
   Seq(
     TopModuleAnnotation,
-    ConfigsAnnotation,
     OutputBaseNameAnnotation,
-    UnderscoreDelimitedConfigsAnnotation,
     LegacySFCAnnotation
   ).foreach(_.addOptions(parser))
 }
