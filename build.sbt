@@ -5,9 +5,12 @@ val scalaVersionFromChisel = "2.13.12"
 val chisel3Version = "3.6.1"
 
 lazy val root = Project("mosaicRoot", file("."))
+
 lazy val mosaicDir = file("./mosaic")
 lazy val toolsDir = file("./tools")
 lazy val firrtlDir = toolsDir / "firrtl2"
+lazy val cdeDir = toolsDir / "cde"
+lazy val firesimDir = toolsDir / "firesim"
 
 // keep chisel/firrtl specific class files, rename other conflicts
 val chiselFirrtlMergeStrategy = CustomMergeStrategy.rename { dep =>
@@ -132,8 +135,31 @@ lazy val firrtl2_bridge = freshProject("firrtl2_bridge", firrtlDir / "bridge")
   .settings(commonSettings)
   .settings(chiselSettings)
 
+  lazy val cde = (project in cdeDir)
+  .settings(commonSettings)
+  .settings(Compile / scalaSource := baseDirectory.value / "cde/src/chipsalliance/rocketchip")
+
+// Contains annotations & firrtl passes you may wish to use in rocket-chip without
+// introducing a circular dependency between RC and MIDAS.
+// Minimal in scope (should only depend on Chisel/Firrtl that is
+// cross-compilable between FireSim Chisel 3.* and MoSAIC Chisel 6+)
+lazy val midas = (project in firesimDir / "sim/midas/targetutils")
+  .settings(commonSettings)
+  .settings(chiselSettings)
+
+// Provides API for bridges to be created in the target.
+// Includes target-side of FireSim-provided bridges and their interfaces that are shared
+// between FireSim and the target. Minimal in scope (should only depend on Chisel/Firrtl that is
+// cross-compilable between FireSim Chisel 3.* and MoSAIC Chisel 6+)
+lazy val firesim = (project in firesimDir / "sim/firesim-lib")
+  .dependsOn(midas)
+  .settings(commonSettings)
+  .settings(chiselSettings)
+  .settings(scalaTestSettings)
+
 lazy val mosaic = (project in mosaicDir)
   .settings(name := "mosaic")
   .dependsOn(firrtl2_bridge)
+  .dependsOn(cde, midas, firesim)
   .settings(commonSettings)
   .settings(chiselSettings)

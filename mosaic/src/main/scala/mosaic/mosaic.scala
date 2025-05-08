@@ -29,7 +29,8 @@ class mosaic(
     )
   )
 
-  val mosaicChiselDir = System.getProperty("user.dir")
+  val mosaicRootDir = System.getProperty("user.dir")
+  val mosaicChiselDir = s"${mosaicRootDir}/mosaic"
   val mosaicVsrcDir   = s"${mosaicChiselDir}/src/main/resources/mosaic/vsrc"
   val mosaicGitDir    = s"${mosaicVsrcDir}/MoSAIC-P38"
   val mosaicGitHash   = s"chisel_wrapper"
