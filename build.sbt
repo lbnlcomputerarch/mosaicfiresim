@@ -1,20 +1,13 @@
-ThisBuild / scalaVersion     := "2.13.12"
-ThisBuild / version          := "0.1.0"
-ThisBuild / organization     := "cag.amcr.lbl.gov"
-
 val chisel6Version = "6.6.0"
 val chiselTestVersion = "6.0.0"
 val scalaVersionFromChisel = "2.13.12"
 
 val chisel3Version = "3.6.1"
 
-// This gives us a nicer handle to the root project instead of using the
-// implicit one
-lazy val chipyardRoot = Project("chipyardRoot", file("."))
-lazy val root = (project in file("./mosaic"))
-  .dependsOn(firrtl2_bridge)
-  .settings(commonSettings)
-  .settings(chiselSettings)
+lazy val root = Project("mosaicRoot", file("."))
+lazy val mosaicDir = file("./mosaic")
+lazy val toolsDir = file("./tools")
+lazy val firrtlDir = toolsDir / "firrtl2"
 
 // keep chisel/firrtl specific class files, rename other conflicts
 val chiselFirrtlMergeStrategy = CustomMergeStrategy.rename { dep =>
@@ -31,8 +24,8 @@ val chiselFirrtlMergeStrategy = CustomMergeStrategy.rename { dep =>
 }
 
 lazy val commonSettings = Seq(
-  organization := "edu.berkeley.cs",
-  version := "1.6",
+  organization := "cag.amcr.lbl.gov",
+  version := "0.1.0",
   scalaVersion := scalaVersionFromChisel,
   assembly / test := {},
   assembly / assemblyMergeStrategy := {
@@ -51,7 +44,7 @@ lazy val commonSettings = Seq(
     "-unchecked",
     "-Ytasty-reader",
     "-Ymacro-annotations"), // fix hierarchy API
-  unmanagedBase := (chipyardRoot / unmanagedBase).value,
+  // unmanagedBase := (root / unmanagedBase).value,
   allDependencies := {
     // drop specific maven dependencies in subprojects in favor of Chipyard's version
     val dropDeps = Seq(("edu.berkeley.cs", "rocketchip"))
@@ -106,12 +99,12 @@ lazy val scalaTestSettings =  Seq(
   )
 )
 
-lazy val firrtl2 = freshProject("firrtl2", file("./firrtl2"))
+lazy val firrtl2 = freshProject("firrtl2", firrtlDir)
   .enablePlugins(BuildInfoPlugin)
   .enablePlugins(Antlr4Plugin)
   .settings(commonSettings)
   .settings(
-    sourceDirectory := file("./firrtl2/src"),
+    sourceDirectory := firrtlDir / "src",
     scalacOptions ++= Seq(
       "-language:reflectiveCalls",
       "-language:existentials",
@@ -134,7 +127,13 @@ lazy val firrtl2 = freshProject("firrtl2", file("./firrtl2"))
     buildInfoKeys := Seq[BuildInfoKey](buildInfoPackage, version, scalaVersion, sbtVersion)
   )
 
-lazy val firrtl2_bridge = freshProject("firrtl2_bridge", file("./firrtl2/bridge"))
+lazy val firrtl2_bridge = freshProject("firrtl2_bridge", firrtlDir / "bridge")
   .dependsOn(firrtl2)
+  .settings(commonSettings)
+  .settings(chiselSettings)
+
+lazy val mosaic = (project in mosaicDir)
+  .settings(name := "mosaic")
+  .dependsOn(firrtl2_bridge)
   .settings(commonSettings)
   .settings(chiselSettings)

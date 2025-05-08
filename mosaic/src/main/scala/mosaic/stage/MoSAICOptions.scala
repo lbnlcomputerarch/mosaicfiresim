@@ -1,8 +1,8 @@
 // See LICENSE
 
-package chipyard.stage
+package mosaic.stage
 
-class ChipyardOptions private[stage] (
+class MoSAICOptions private[stage] (
                                          val topModule:               Option[Class[_ <: Any]] = None,
                                          val outputBaseName:          Option[String] = None,
                                          val enableSFCFIRRTLEmission: Boolean = false) {
@@ -11,9 +11,9 @@ class ChipyardOptions private[stage] (
                            topModule:               Option[Class[_ <: Any]] = topModule,
                            outputBaseName:          Option[String] = outputBaseName,
                            enableSFCFIRRTLEmission: Boolean = enableSFCFIRRTLEmission,
-                         ): ChipyardOptions = {
+                         ): MoSAICOptions = {
 
-    new ChipyardOptions(
+    new MoSAICOptions(
       topModule=topModule,
       outputBaseName=outputBaseName,
       enableSFCFIRRTLEmission=enableSFCFIRRTLEmission,

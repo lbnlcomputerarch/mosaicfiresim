@@ -1,4 +1,4 @@
-package chipyard.stage.phases
+package mosaic.stage.phases
 
 import circt.stage.{ChiselStage, CIRCTTargetAnnotation, CIRCTTarget}
 import firrtl.options.PhaseManager.PhaseDependency
@@ -7,14 +7,14 @@ import firrtl.options.Viewer.view
 import firrtl.{AnnotationSeq}
 import firrtl.stage.{FirrtlCircuitAnnotation}
 import firrtl.options.{Phase, PhaseManager, Shell, Stage, StageError, StageMain, Dependency, StageOptions}
-import chipyard.stage._
+import mosaic.stage._
 
-final class LegacyFirrtl2Emission extends Phase with PreservesAll with HasChipyardStageUtils {
-  override val prerequisites = Seq(Dependency[chipyard.stage.ChipyardChiselStage])
+final class LegacyFirrtl2Emission extends Phase with PreservesAll with HasMoSAICStageUtils {
+  override val prerequisites = Seq(Dependency[mosaic.stage.MoSAICChiselStage])
 
   override def transform(annotations: AnnotationSeq): AnnotationSeq = {
     val targetDir = view[StageOptions](annotations).targetDir
-    val fileName = s"${view[ChipyardOptions](annotations).longName.get}.sfc.fir"
+    val fileName = s"${view[MoSAICOptions](annotations).longName.get}.sfc.fir"
 
     val annos = annotations.filterNot(_.isInstanceOf[firrtl.options.TargetDirAnnotation])
 

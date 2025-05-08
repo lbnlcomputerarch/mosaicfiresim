@@ -1,11 +1,11 @@
 // See LICENSE
 
-package chipyard.stage.phases
+package mosaic.stage.phases
 
 import firrtl.AnnotationSeq
 import firrtl.annotations.Annotation
 import firrtl.options.{OptionsException, Phase, TargetDirAnnotation}
-import chipyard.stage._
+import mosaic.stage._
 
 import scala.collection.mutable
 

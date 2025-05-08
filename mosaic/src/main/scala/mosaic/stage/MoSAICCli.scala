@@ -1,13 +1,13 @@
 // See LICENSE for license details.
 // Based on Rocket Chip's stage implementation
 
-package chipyard.stage
+package mosaic.stage
 
 import firrtl.options.Shell
 
-trait ChipyardCli { this: Shell =>
+trait MoSAICCli { this: Shell =>
 
-  parser.note("Chipyard Generator Options")
+  parser.note("MoSAIC Generator Options")
   Seq(
     TopModuleAnnotation,
     OutputBaseNameAnnotation,

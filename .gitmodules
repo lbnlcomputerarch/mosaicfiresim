@@ -1,0 +1,3 @@
+[submodule "tools/firrtl2"]
+	path = tools/firrtl2
+	url = https://github.com/ucb-bar/firrtl2.git

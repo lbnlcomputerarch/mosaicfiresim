@@ -31,10 +31,10 @@ target
 # Metals
 .bloop
 .metals
+metals.sbt
 
 # VSCode
 .vscode
 
 # MoSAIC Repository
 MoSAIC-P38
-firrtl2

@@ -1,21 +1,21 @@
 // See LICENSE
 
-package chipyard.stage.phases
+package mosaic.stage.phases
 
 import firrtl.AnnotationSeq
 import firrtl.annotations.{JsonProtocol}
 import firrtl.options.Viewer.view
 import firrtl.options._
-import chipyard.stage._
+import mosaic.stage._
 
 /** Writes FIRRTL annotations into a file */
-class GenerateFirrtlAnnos extends Phase with PreservesAll with HasChipyardStageUtils {
+class GenerateFirrtlAnnos extends Phase with PreservesAll with HasMoSAICStageUtils {
 
-  override val prerequisites = Seq(Dependency[chipyard.stage.ChipyardChiselStage])
+  override val prerequisites = Seq(Dependency[mosaic.stage.MoSAICChiselStage])
 
   override def transform(annotations: AnnotationSeq): AnnotationSeq = {
     val targetDir = view[StageOptions](annotations).targetDir
-    val fileName = s"${view[ChipyardOptions](annotations).longName.get}.anno.json"
+    val fileName = s"${view[MoSAICOptions](annotations).longName.get}.anno.json"
 
     val annos = annotations.view.flatMap {
       // Remove TargetDirAnnotation so that we can pass as argument to FIRRTL

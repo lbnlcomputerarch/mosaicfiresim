@@ -1,10 +1,10 @@
 // See LICENSE
 
-package chipyard.stage
+package mosaic.stage
 
 import java.io.{File, FileWriter}
 
-trait HasChipyardStageUtils {
+trait HasMoSAICStageUtils {
 
   def writeOutputFile(targetDir: String, fname: String, contents: String): File = {
     val f = new File(targetDir, fname)

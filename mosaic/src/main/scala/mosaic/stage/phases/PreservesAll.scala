@@ -1,4 +1,4 @@
-package chipyard.stage.phases
+package mosaic.stage.phases
 
 import firrtl.AnnotationSeq
 import firrtl.options.{Dependency, DependencyManagerException, Phase, PhaseManager}

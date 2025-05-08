@@ -1,15 +1,15 @@
 // See LICENSE for license details.
 // Based on Rocket Chip's stage implementation
 
-package chipyard.stage
+package mosaic.stage
 
 import chisel3.experimental.BaseModule
 import firrtl.annotations.{Annotation, NoTargetAnnotation}
 import firrtl.options.{HasShellOptions, ShellOption, Unserializable}
 
-trait ChipyardOption extends Unserializable { this: Annotation => }
+trait MoSAICOption extends Unserializable { this: Annotation => }
 
-case class TopModuleAnnotation(clazz: Class[_ <: Any]) extends NoTargetAnnotation with ChipyardOption
+case class TopModuleAnnotation(clazz: Class[_ <: Any]) extends NoTargetAnnotation with MoSAICOption
 private[stage] object TopModuleAnnotation extends HasShellOptions {
   override val options = Seq(
     new ShellOption[String](
@@ -22,7 +22,7 @@ private[stage] object TopModuleAnnotation extends HasShellOptions {
 }
 
 /** Optional base name for generated files' filenames */
-case class OutputBaseNameAnnotation(outputBaseName: String) extends NoTargetAnnotation with ChipyardOption
+case class OutputBaseNameAnnotation(outputBaseName: String) extends NoTargetAnnotation with MoSAICOption
 private[stage] object OutputBaseNameAnnotation extends HasShellOptions {
   override val options = Seq(
     new ShellOption[String](
@@ -35,7 +35,7 @@ private[stage] object OutputBaseNameAnnotation extends HasShellOptions {
 }
 
 /** Optionally generate legacy FIRRTL2 SFC FIRRTL generation */
-case class LegacySFCAnnotation() extends NoTargetAnnotation with ChipyardOption
+case class LegacySFCAnnotation() extends NoTargetAnnotation with MoSAICOption
 private[stage] object LegacySFCAnnotation extends HasShellOptions {
   override val options = Seq(
     new ShellOption[Unit](

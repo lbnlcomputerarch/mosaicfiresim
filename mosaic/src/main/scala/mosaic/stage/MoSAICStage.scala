@@ -1,7 +1,7 @@
 // See LICENSE for license details.
 // Based on Rocket Chip's stage implementation
 
-package chipyard.stage
+package mosaic.stage
 
 import circt.stage.{ChiselStage, CIRCTTargetAnnotation, CIRCTTarget}
 import firrtl.options.{Shell}
@@ -9,7 +9,7 @@ import firrtl.options.Viewer.view
 import firrtl.{AnnotationSeq}
 import firrtl.options.{Phase, PhaseManager, Shell, Dependency}
 
-final class ChipyardChiselStage extends ChiselStage {
+final class MoSAICChiselStage extends ChiselStage {
   override def run(annotations: AnnotationSeq): AnnotationSeq = {
     val pm = new PhaseManager(
       targets = Seq(
@@ -34,24 +34,24 @@ final class ChipyardChiselStage extends ChiselStage {
   }
 }
 
-class ChipyardStage extends ChiselStage {
-  override val shell = new Shell("chipyard") with ChipyardCli with circt.stage.CLI {
+class MoSAICStage extends ChiselStage {
+  override val shell = new Shell("mosaic") with MoSAICCli with circt.stage.CLI {
     // These are added by firrtl.options.Shell (which we must extend because we are a Stage)
     override protected def includeLoggerOptions = false
   }
   override def run(annotations: AnnotationSeq): AnnotationSeq = {
-    val enableSFCFIRRTLEmissionPasses = if (view[ChipyardOptions](annotations).enableSFCFIRRTLEmission) {
-      Seq(Dependency[chipyard.stage.phases.LegacyFirrtl2Emission])
+    val enableSFCFIRRTLEmissionPasses = if (view[MoSAICOptions](annotations).enableSFCFIRRTLEmission) {
+      Seq(Dependency[mosaic.stage.phases.LegacyFirrtl2Emission])
     } else {
       Seq.empty
     }
     val pm = new PhaseManager(
       targets = Seq(
-        Dependency[chipyard.stage.phases.Checks],
-        Dependency[chipyard.stage.phases.TransformAnnotations],
-        Dependency[chipyard.stage.phases.PreElaboration],
-        Dependency[ChipyardChiselStage],
-        Dependency[chipyard.stage.phases.GenerateFirrtlAnnos],
+        Dependency[mosaic.stage.phases.Checks],
+        Dependency[mosaic.stage.phases.TransformAnnotations],
+        Dependency[mosaic.stage.phases.PreElaboration],
+        Dependency[MoSAICChiselStage],
+        Dependency[mosaic.stage.phases.GenerateFirrtlAnnos],
       ) ++ enableSFCFIRRTLEmissionPasses,
       currentState = Seq(
         Dependency[firrtl.stage.phases.AddDefaults],
