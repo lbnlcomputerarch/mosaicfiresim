@@ -61,13 +61,17 @@ object VerilogPreprocessor {
     result.toString()
   }
   
+  /**
+   * Regex for Verilog "`include" directive
+   */
+  private val includeRegex : Regex = """^\s*`include\s+"(.*)"""".r
+    
   private def processLines(
     lines: Array[String],
     result: StringBuilder,
     incDirs: Seq[String],
     replacedIncludes: Set[String]
   ): Unit = {
-    val includeRegex = """^\s*`include\s+"(.*)"""".r
     
     // Process each line
     lines.zipWithIndex.foreach { case (line, idx) =>

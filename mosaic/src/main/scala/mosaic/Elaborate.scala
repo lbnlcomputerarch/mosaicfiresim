@@ -1,3 +1,5 @@
+package mosaic
+
 object Elaborate extends App {
   val firtoolOptions = Array(
     "-disable-all-randomization",
@@ -11,7 +13,7 @@ object Elaborate extends App {
   )
   println(
     circt.stage.ChiselStage.emitSystemVerilogFile(
-      new mosaic.MoSAICChisel(),
+      new MoSAICChisel(),
       args,
       firtoolOptions
     )
