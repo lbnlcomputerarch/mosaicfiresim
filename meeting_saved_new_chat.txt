@@ -1,0 +1,42 @@
+14:30:21 From Farzad Fatollahi-Fard To Everyone:
+	https://github.com/lbnlcomputerarch/MoSAIC-P38 
+	
+14:47:53 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/chipyard/blob/main/generators/chipyard/src/main/scala/Generator.scala
+	
+14:48:16 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/chipyard/tree/424249b49f8d465329c57d5c87d52d87a3e3defd/tools/stage/src/main/scala
+	
+14:49:08 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/firrtl2/tree/main
+	
+14:51:11 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/chipyard/blob/424249b49f8d465329c57d5c87d52d87a3e3defd/build.sbt#L343C1-L374C28
+	
+14:55:39 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/chipyard/blob/424249b49f8d465329c57d5c87d52d87a3e3defd/build.sbt#L100C1-L105C2
+	
+14:59:09 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/chipyard/blob/424249b49f8d465329c57d5c87d52d87a3e3defd/project/plugins.sbt
+	
+15:06:57 From Abraham Gonzalez To Everyone:
+	sbt ;project firrtl2_bridge; compile
+	
+15:07:07 From Abraham Gonzalez To Everyone:
+	sbt “;project firrtl2_bridge; compile”
+	
+15:46:11 From Abraham Gonzalez To Everyone:
+	val gen = () => 
+	      topMod 
+	        .getConstructor(classOf[]) 
+	        .newInstance() match { 
+	          case a: RawModule => a 
+	          case a: LazyModule => LazyModule(a).module 
+	        }
+	
+15:49:24 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/chipyard/blob/424249b49f8d465329c57d5c87d52d87a3e3defd/generators/chipyard/src/main/scala/Generator.scala
+	
+16:21:26 From Abraham Gonzalez To Everyone:
+	https://github.com/ucb-bar/chipyard/blob/424249b49f8d465329c57d5c87d52d87a3e3defd/build.sbt#L376C1-L395C1
+	

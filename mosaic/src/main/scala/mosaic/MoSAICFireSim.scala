@@ -30,6 +30,8 @@ class SimpleMoSAIC extends Module {
 
   io.done := simpleMoSAIC.io.internalResetDone
 
+  // io.done := 1.U
+  
   when(simpleMoSAIC.io.internalResetDone) {
     printf("MoSAIC has reset successfully\n")
   }
