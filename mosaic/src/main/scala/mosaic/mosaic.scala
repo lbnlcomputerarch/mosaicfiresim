@@ -3,6 +3,7 @@ package mosaic
 import sys.process._
 import scala.io.Source
 import java.io.File
+import java.nio.file.{Files, Paths, StandardCopyOption}
 
 import chisel3._
 import chisel3.util.HasBlackBoxPath
@@ -31,20 +32,43 @@ class mosaic(
 
   val mosaicRootDir = System.getProperty("user.dir")
   val mosaicChiselDir = s"${mosaicRootDir}/mosaic"
-  val mosaicVsrcDir   = s"${mosaicChiselDir}/src/main/resources/mosaic/vsrc"
-  val mosaicGitDir    = s"${mosaicVsrcDir}/MoSAIC-P38"
-  val mosaicGitHash   = s"chisel_wrapper"
+  val mosaicVsrcDir   = s"${mosaicChiselDir}/src/main/resources/vsrc"
+  val mosaicPerlDir   = s"${mosaicChiselDir}/src/main/perl/mosaic"
+  val mosaicGitDir    = s"${mosaicRootDir}/tools/MoSAIC-P38"
+  val mosaicBuildDir  = s"${mosaicGitDir}/build"
+  val mosaicPerlRunDir = s"${mosaicGitDir}/tools/generate"
   val mosaicFileList  = s"${mosaicGitDir}/icarus/file_list.txt"
+  val mosaicPreProcOutputFile = s"${mosaicVsrcDir}/mosaic.preprocessed.sv"
 
-  if (! new File(mosaicGitDir).exists()) {
-    val gitClone = 
-      s"git clone -b ${mosaicGitHash} https://github.com/lbnlcomputerarch/MoSAIC-P38.git ${mosaicGitDir}"
-    require(gitClone.! == 0, "Failed to clone MoSAIC-P38")
+  // Source and destination Perl paths
+  val sourceMoSAICPerlScript = Paths.get(mosaicPerlDir + "/" + mosaicConfig + ".pl")
+  val destMoSAICPerlDir = Paths.get(mosaicPerlRunDir)
+  val destMoSAICPerlScript = Paths.get(mosaicPerlRunDir + "/" + mosaicConfig + ".pl")
+  
+  // Check if source script exists
+  if (!Files.exists(sourceMoSAICPerlScript)) {
+    println(s"Error: Source script not found at ${sourceMoSAICPerlScript.toAbsolutePath}")
+    System.exit(1)
   }
 
-  val perlMake =
-    s"make -C ${mosaicVsrcDir} build MOSAIC_PERL_SCRIPT=\"${mosaicConfig}\""
-  require(perlMake.! == 0, "Failed to run MoSAIC Perl Build step")
+  // Create destination directory if it doesn't exist
+  Files.createDirectories(Paths.get(mosaicVsrcDir))
+
+  // Copy the script file
+  Files.copy(sourceMoSAICPerlScript, destMoSAICPerlScript, StandardCopyOption.REPLACE_EXISTING)
+  println(s"[INFO] Copied ${mosaicConfig}.pl to ${destMoSAICPerlScript.toAbsolutePath}")
+  
+  // Set execute permissions
+  destMoSAICPerlScript.toFile.setExecutable(true)
+
+  val perlBuild = Process(
+    Seq(
+      "perl",
+      s"-I${mosaicPerlRunDir}",
+      s"./${mosaicConfig}.pl"
+    ),
+    destMoSAICPerlDir.toFile)
+  require(perlBuild.! == 0, "Failed to run MoSAIC Perl Build step")
 
   val fileList = Source
     .fromFile(mosaicFileList)
@@ -55,12 +79,30 @@ class mosaic(
     .filterNot(_.contains("Testbench"))
     .map(_.replaceAll("^\\.{2}(.*)$","$1"))
     .map(mosaicGitDir +  _)
+    .map(new File(_))
 
   // pre-process the verilog to remove "includes" and combine into one file
-  val make =
-    s"make -C ${mosaicVsrcDir} default MOSAIC_PERL_SCRIPT=\"${mosaicConfig}\" ALL_VSRCS=\"${fileList.mkString(" ")}\""
-  require(make.! == 0, "Failed to run preprocessing step")
+  utils.VerilogPreprocessor.preprocessVerilog(
+    outputFile = new File(mosaicPreProcOutputFile),
+    allVsrcs = fileList,
+    preprocessDefines = Seq(
+      "MOSAIC_FIRESIM"
+      ),
+    verilatorLintoffDefines = Seq(
+      "UNUSEDPARAM",
+      "PINCONNECTEMPTY",
+      "GENUNNAMED",
+      "IMPLICIT", 
+      "WIDTHEXPAND",
+      "WIDTHTRUNC",
+      "UNSIGNED",
+      "CASEINCOMPLETE",
+      "BLKSEQ",
+      "SYNCASYNCNET"
+    ),
+    buildDir = new File(mosaicBuildDir)
+  )
 
   // add wrapper/blackbox after it is pre-processed
-  addPath(s"${mosaicVsrcDir}/mosaic.preprocessed.sv")
+  addPath(mosaicPreProcOutputFile)
 }
