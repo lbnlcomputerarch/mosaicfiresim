@@ -33,8 +33,10 @@ class mosaic(
   val mosaicChiselDir = s"${mosaicRootDir}/mosaic"
   val mosaicVsrcDir   = s"${mosaicChiselDir}/src/main/resources/mosaic/vsrc"
   val mosaicGitDir    = s"${mosaicVsrcDir}/MoSAIC-P38"
+  val mosaicBuildDir  = s"${mosaicGitDir}/build"
   val mosaicGitHash   = s"chisel_wrapper"
   val mosaicFileList  = s"${mosaicGitDir}/icarus/file_list.txt"
+  val mosaicPreProcOutputFile = s"${mosaicVsrcDir}/mosaic.preprocessed.sv"
 
   if (! new File(mosaicGitDir).exists()) {
     val gitClone = 
@@ -55,12 +57,30 @@ class mosaic(
     .filterNot(_.contains("Testbench"))
     .map(_.replaceAll("^\\.{2}(.*)$","$1"))
     .map(mosaicGitDir +  _)
+    .map(new File(_))
 
   // pre-process the verilog to remove "includes" and combine into one file
-  val make =
-    s"make -C ${mosaicVsrcDir} default MOSAIC_PERL_SCRIPT=\"${mosaicConfig}\" ALL_VSRCS=\"${fileList.mkString(" ")}\""
-  require(make.! == 0, "Failed to run preprocessing step")
+  utils.VerilogPreprocessor.preprocessVerilog(
+    outputFile = new File(mosaicPreProcOutputFile),
+    allVsrcs = fileList,
+    preprocessDefines = Seq(
+      "MOSAIC_FIRESIM"
+      ),
+    verilatorLintoffDefines = Seq(
+      "UNUSEDPARAM",
+      "PINCONNECTEMPTY",
+      "GENUNNAMED",
+      "IMPLICIT", 
+      "WIDTHEXPAND",
+      "WIDTHTRUNC",
+      "UNSIGNED",
+      "CASEINCOMPLETE",
+      "BLKSEQ",
+      "SYNCASYNCNET"
+    ),
+    buildDir = new File(mosaicBuildDir)
+  )
 
   // add wrapper/blackbox after it is pre-processed
-  addPath(s"${mosaicVsrcDir}/mosaic.preprocessed.sv")
+  addPath(mosaicPreProcOutputFile)
 }
