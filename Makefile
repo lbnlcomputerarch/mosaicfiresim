@@ -10,10 +10,10 @@ test:
 verilog: reformat
 	$(call git_commit, "generate verilog")
 	mkdir -p $(BUILD_DIR)
-	mill -i $(PRJ).runMain Elaborate --target-dir $(BUILD_DIR)
+	sbt ";project $(PRJ);runMain $(PRJ).Elaborate --target-dir $(BUILD_DIR)"
 
 help:
-	mill -i $(PRJ).runMain Elaborate --help
+	sbt ";project mosaic;runMain mosaic.Elaborate --help"
 
 reformat:
 	mill -i __.reformat
@@ -29,7 +29,7 @@ idea:
 
 clean:
 	-rm -rf $(BUILD_DIR) ./out
-	cd src/main/resources/mosaic/vsrc && $(MAKE) clean
+	-rm -rf mosaic/src/main/resources/vsrc
 
 .PHONY: test verilog help reformat checkformat clean
 

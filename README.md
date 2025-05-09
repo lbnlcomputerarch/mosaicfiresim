@@ -1,36 +1,22 @@
 ---
 title: MoSAICFireSim
-version: v0.1.0
-firesim:
-  version: b084672c2
-  url: https://github.com/firesim/firesim/tree/b084672c2
-chipyard:
-  version: 320c1b93
-  url: https://github.com/ucb-bar/chipyard/tree/320c1b93
+version: v0.3.0
 ---
 
 [[_TOC_]]
 
 # FireSim Wrapper for MoSAIC
 
->>>
-**NOTE:** This wrapper was build and tested on:
-
-- FireSim Hash: [`b084672c2`](https://github.com/firesim/firesim/tree/b084672c2)
-- Chipyard Hash: [`320c1b93`](https://github.com/ucb-bar/chipyard/tree/320c1b93)
-
->>>
-
 Simple FireSim without Chipyard wrapper for MoSAIC.
 
 ## FireSim Integration
 
-To integrate the Chisel Wrapper for MoSAIC with FireSim, make sure you have `$FIRESIM_ROOT` defined in your environment. `$FIRESIM_ROOT` points to where your FireSim checkout is located in your environment.
+<!-- To integrate the Chisel Wrapper for MoSAIC with FireSim, make sure you have `$FIRESIM_ROOT` defined in your environment. `$FIRESIM_ROOT` points to where your FireSim checkout is located in your environment.
 
 ```bash
 # Make sure $FIRESIM_ROOT is defined
 ./firesim-install.sh
-```
+``` -->
 
 Follow the directions for [FireSim without Chipyard](https://docs.fires.im/en/main/Advanced-Usage/FireSim-without-Chipyard.html) for details on how to build and run MoSAIC within Verilator and FireSim.
 
