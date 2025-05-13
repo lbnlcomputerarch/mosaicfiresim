@@ -7,6 +7,6 @@
 [submodule "tools/firesim"]
 	path = tools/firesim
 	url = https://github.com/firesim/firesim.git
-[submodule "tools/MoSAIC-P38"]
-	path = tools/MoSAIC-P38
+[submodule "mosaic/src/main/resources/mosaic/MoSAIC-P38"]
+	path = mosaic/src/main/resources/mosaic/MoSAIC-P38
 	url = https://github.com/lbnlcomputerarch/MoSAIC-P38.git

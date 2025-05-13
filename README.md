@@ -9,18 +9,30 @@ version: v0.3.0
 
 Simple FireSim without Chipyard wrapper for MoSAIC.
 
+## FIRRTL2 Layer
+
+Due to FireSim using Chisel v3.6, we need to add a FIRRTL2 shim that will provide the translation of MoSAIC's Chisel 6 wrapper to be consumed by FireSim's Chisel 3.6.
+
+To see the generated FIRRTL:
+
+```bash
+make firrtl
+```
+
+You'll find the generated FIRRTL in `build`.
+
 ## FireSim Integration
 
-<!-- To integrate the Chisel Wrapper for MoSAIC with FireSim, make sure you have `$FIRESIM_ROOT` defined in your environment. `$FIRESIM_ROOT` points to where your FireSim checkout is located in your environment.
+To integrate the Chisel Wrapper for MoSAIC with FireSim, make sure you have `$FIRESIM_ROOT` defined in your environment. `$FIRESIM_ROOT` points to where your FireSim checkout is located in your environment.
 
 ```bash
 # Make sure $FIRESIM_ROOT is defined
-./firesim-install.sh
-``` -->
+make firesim
+```
 
 Follow the directions for [FireSim without Chipyard](https://docs.fires.im/en/main/Advanced-Usage/FireSim-without-Chipyard.html) for details on how to build and run MoSAIC within Verilator and FireSim.
 
-## Running `SimpleMoSAIC` on Verilator
+### Running `SimpleMoSAIC` on Verilator
 
 Here are some basic instructions for running the `SimpleMoSAIC` harness within Verilator.
 
@@ -65,16 +77,6 @@ This project can be built with the following build tools:
 - [Mill](https://mill-build.com/), a modern Scala build tool that's more user friendly than SBT. The instructions for installing `mill` can be found [here](https://www.chisel-lang.org/docs/installation#mill).
 
 ## Build Verilog
-
-### `scala-cli`
-
-```bash
-scala-cli src/main/scala/mosaic/MoSAICChisel.scala src/main/scala/mosaic/MoSAICIO.scala src/main/scala/mosaic/mosaic.scala
-```
-
-The generated SystemVerilog will be found in `build`.
-
-### `mill`
 
 ```bash
 make verilog

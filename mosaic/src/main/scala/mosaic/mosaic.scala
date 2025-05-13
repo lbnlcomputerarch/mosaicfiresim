@@ -33,8 +33,8 @@ class mosaic(
   val mosaicRootDir = System.getProperty("user.dir")
   val mosaicChiselDir = s"${mosaicRootDir}/mosaic"
   val mosaicVsrcDir   = s"${mosaicChiselDir}/src/main/resources/vsrc"
-  val mosaicPerlDir   = s"${mosaicChiselDir}/src/main/perl/mosaic"
-  val mosaicGitDir    = s"${mosaicRootDir}/tools/MoSAIC-P38"
+  val mosaicPerlDir   = s"${mosaicChiselDir}/src/main/resources/mosaic/perl"
+  val mosaicGitDir    = s"${mosaicChiselDir}/src/main/resources/mosaic/MoSAIC-P38"
   val mosaicBuildDir  = s"${mosaicGitDir}/build"
   val mosaicPerlRunDir = s"${mosaicGitDir}/tools/generate"
   val mosaicFileList  = s"${mosaicGitDir}/icarus/file_list.txt"
@@ -69,6 +69,13 @@ class mosaic(
     ),
     destMoSAICPerlDir.toFile)
   require(perlBuild.! == 0, "Failed to run MoSAIC Perl Build step")
+
+  // Delete the script after execution
+  if (Files.deleteIfExists(destMoSAICPerlScript)) {
+    println(s"[INFO] Deleted temporary script: ${destMoSAICPerlScript.toAbsolutePath}")
+  } else {
+    println(s"[WARN] Could not delete script at ${destMoSAICPerlScript.toAbsolutePath}")
+  }
 
   val fileList = Source
     .fromFile(mosaicFileList)
